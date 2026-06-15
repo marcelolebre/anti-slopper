@@ -38,6 +38,7 @@ The pattern catalog below tells you what to avoid. This section is the craft und
 The sentence is the unit of writing, not the paragraph and not the "flow." A good piece is good sentences in a good order. Fix the sentence and most other problems go with it.
 
 - **Default to short.** Make sentences shorter than you think they need to be. A short sentence has nowhere to hide a weak thought. Length should be a deliberate choice, not the path of least resistance. AI prose drifts toward long, even, clause-heavy sentences. Resist the drift.
+- **Aim for unsummarizable.** Strip out so much fluff that the text resists summary: if someone cuts words, as any summary does, they should lose real ideas, not padding. Every sentence should carry something a reader would miss if it were gone. When you can drop a sentence and lose nothing, it was fluff; delete it yourself.
 - **One thought per sentence.** A sentence carrying three ideas joined by commas and "and" is usually three sentences wearing a coat.
 - **Let juxtaposition connect.** You rarely need "additionally," "moreover," "furthermore," "in addition," or "as such." Put two clear sentences next to each other and the reader supplies the link. Explicit connectors are the most common slop transition, and cutting them almost always helps.
 - **Trust the reader.** Don't explain what the sentence already implies. Implication is stronger than statement. Over-explaining is a tell of both models and nervous writers.
