@@ -1,67 +1,70 @@
 # anti-slopper
 
-An agent skill that makes AI assistants **write like a human**. It works while drafting, before the slop exists, then runs a self-audit before anything ships.
+A writing skill for agents. It guides drafting and revision toward clear prose while preserving facts and the writer's voice.
 
-What that looks like:
+Before:
 
-> **Slop:** This isn't a tool. This is a revolution.
-> **Human:** The tool changes how teams ship code.
+> This pivotal update adds CSV export, unlocking new possibilities for users. Integration tests have not been run.
 
-> **Slop:** Gallery 825 serves as the exhibition space and boasts over 3,000 sq ft.
-> **Human:** Gallery 825 is the exhibition space and has about 3,000 sq ft.
+After:
 
-> **Slop:** 🚀 Thrilled to announce I'm joining Acme as VP of Engineering! Let's connect!
-> **Human:** New job: VP of Engineering at Acme. First project is fixing the deploy pipeline I complained about here in March.
+> The update adds CSV export. Integration tests have not been run.
 
-The skill catalogs 37 patterns like these, each with its human alternative: significance inflation, promotional tone, `-ing` padding, em dashes, hedge stacks, "what got me is…" reveals, buried ledes and engagement bait in social posts, and the fatal "this isn't X, it's Y" construction.
+The skill covers sentence craft, recurring filler, and choices that depend on the medium. Its self-audit checks meaning before style. User instructions and supplied house style override its defaults, including the preference for prose without em dashes or en dashes.
 
-Underneath the catalog is a "Sentences first" craft section: the sentence is the unit, default to short, let juxtaposition connect, trust the reader. Most AI tells dissolve once the sentence is right.
-
-Use it for any prose a person will read: PR descriptions, commit messages, docs, comments, design notes, chat and email replies, social posts, and essays.
+All writing instructions live in [SKILL.md](SKILL.md). Using the skill requires no scripts, dependencies, or network access. It makes no promise about AI-detector scores.
 
 ## Install
 
-The whole skill is one self-contained markdown file, `SKILL.md`. No scripts, no tools, no platform APIs. Any agent that can read a file can use it.
+Clone this repository into one of your tool's skill directories. The folder should be named `anti-slopper` and contain `SKILL.md`.
 
-**Claude Code**
+| Tool and official documentation | Personal installation | Project installation |
+| --- | --- | --- |
+| [Codex](https://learn.chatgpt.com/docs/build-skills) | `~/.agents/skills/anti-slopper` | `.agents/skills/anti-slopper` |
+| [Claude Code](https://code.claude.com/docs/en/skills) | `~/.claude/skills/anti-slopper` | `.claude/skills/anti-slopper` |
+| [OpenCode](https://opencode.ai/docs/skills/) | `~/.config/opencode/skills/anti-slopper` | `.opencode/skills/anti-slopper` |
+| [Cursor](https://cursor.com/docs/skills) | `~/.cursor/skills/anti-slopper` | `.cursor/skills/anti-slopper` |
 
-```bash
-git clone https://github.com/marcelolebre/anti-slopper ~/.claude/skills/anti-slopper
+For example, install for Codex with:
+
+```sh
+mkdir -p ~/.agents/skills
+git clone https://github.com/marcelolebre/anti-slopper.git ~/.agents/skills/anti-slopper
 ```
 
-Invoke with `/anti-slopper`, or let the agent trigger it automatically when it's about to write prose (the `description` in `SKILL.md` drives auto-selection).
+Use the appropriate path from the table for another tool. You can also copy the skill into that directory; retain `LICENSE` and `NOTICE.md` when redistributing it.
 
-**OpenCode**
+In Codex CLI or the IDE extension, mention `$anti-slopper` or select it through `/skills`. In Claude Code and Cursor, invoke `/anti-slopper`. In OpenCode, ask the agent to use the `anti-slopper` skill. These tools can also select a skill when its description matches the task. The linked documentation explains discovery and configuration for each tool.
 
-```bash
-git clone https://github.com/marcelolebre/anti-slopper ~/.config/opencode/skills/anti-slopper
+Try it with:
+
+```text
+Use anti-slopper to revise this update:
+"In order to prevent duplicate emails, the worker records each message ID.
+The integration tests have not been run."
 ```
 
-(OpenCode also scans the Claude Code skills directory, so either location works.)
+The revision should remove filler and keep the unrun tests explicit.
 
-**Codex CLI, Amp, Copilot, and other AGENTS.md-aware agents**
+## Apply it throughout a project
 
-Vendor this repo into your project (clone, submodule, or copy) and the included `AGENTS.md` points the agent at `SKILL.md` whenever it writes prose. Or add one line to your existing `AGENTS.md`:
+For a project installation under `.agents/skills/anti-slopper`, add this instruction to the consuming project's root `AGENTS.md` or its main agent instructions:
 
+```text
+Before writing or editing prose, read .agents/skills/anti-slopper/SKILL.md,
+follow its guidance, and run its self-audit before delivering the text.
 ```
-Before writing prose for a person to read, follow path/to/anti-slopper/SKILL.md and run its self-audit.
-```
 
-**Cursor**
+Adjust the path if you installed elsewhere. In Codex, `AGENTS.md` discovery follows directory scope, so the file included in this repository governs work here. A vendored copy needs a reference in the consuming project's instructions to apply across that project. See [Codex instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
-Copy `SKILL.md` into `.cursor/rules/anti-slopper.mdc`, or reference it from your rules file.
+For custom agents or system prompts, include the contents of `SKILL.md` in the instructions. The writing guidance is self-contained.
 
-**Anything else (custom agents, system prompts, GPTs)**
+## Evaluate changes
 
-Paste the contents of `SKILL.md` into the system prompt or instructions. It's plain markdown and self-contained.
+[The writing checks](evals/README.md) cover factual precision, voice preservation, and cases where a style rule should yield to the request. They include prompts and acceptance criteria for comparing revisions. They are for maintainers and aren't needed to use the skill.
 
-## What's inside
-
-- `SKILL.md` — the skill: core habits, 37 patterns with human alternatives, social media registers (hooks, broetry, CTAs), a "personality and soul" section for opinion registers, voice matching, false-positive guidance, and a pre-ship self-audit.
-- `AGENTS.md` — a pointer file so AGENTS.md-aware agents pick the skill up automatically when the repo is vendored into a project.
+A new rule should address a demonstrated writing problem. Add a case for the problem and check that the rule still preserves already effective prose.
 
 ## License and credit
 
-Built on [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (WikiProject AI Cleanup, CC BY-SA 4.0) and the [humanizer](https://github.com/blader/humanizer) skill by Siqi Chen (MIT).
-
-MIT licensed, except the portions adapted from Wikipedia, which remain available under CC BY-SA 4.0. Details in [NOTICE.md](NOTICE.md).
+Original contributions are MIT licensed. Portions adapted from [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) retain CC BY-SA 4.0 terms. The skill also draws on [humanizer](https://github.com/blader/humanizer) by Siqi Chen, licensed under MIT. See [NOTICE.md](NOTICE.md) for attribution and [LICENSE](LICENSE) for the project's MIT terms.

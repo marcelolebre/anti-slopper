@@ -1,0 +1,137 @@
+[
+  {
+    "id": "quantities_and_uncertainty",
+    "prompt": "Make this shorter and more confident for an internal status update: \"Our internal pilot processed more than 3,000 records. It suggests the change may reduce review time by up to 30%, but the estimate comes from one site.\"",
+    "checks": [
+      "Retains the lower bound on 3,000 records and upper bound on 30%.",
+      "Retains the internal pilot, one-site scope, and uncertainty about the reduction.",
+      "Adds no measurements or claims of a proven reduction."
+    ]
+  },
+  {
+    "id": "causality",
+    "prompt": "Polish this incident update: \"Errors fell from 18 to 11 per day after the cache update. The monitoring rules changed that week too. We haven't isolated the cause.\"",
+    "checks": [
+      "Keeps both daily error counts and the monitoring change.",
+      "Preserves the unresolved cause instead of crediting the cache update.",
+      "Adds no claim that the incident is fixed."
+    ]
+  },
+  {
+    "id": "necessary_negation",
+    "prompt": "Tighten these API docs: \"This token grants read access, not write access. Requests fail unless the token is valid. The server checks the signature before reading the payload.\"",
+    "checks": [
+      "Still distinguishes read access from write access.",
+      "Preserves token validity as a necessary condition and the order of signature checking.",
+      "Does not delete a technical distinction to avoid a contrast construction."
+    ]
+  },
+  {
+    "id": "protected_literals",
+    "prompt": "Tidy the prose around this excerpt for a runbook. Preserve quoted text and commands verbatim.\n\nThe release note says, \"Try again—after the backup finishes.\" In order to inspect the archive, utilize `backup --dry-run --keep-days 7` and see `https://example.com/releases/v1--beta`. The diagnostic code is `ERR_CACHE_MISS`.",
+    "checks": [
+      "Preserves the quotation exactly, including its em dash.",
+      "Preserves the command, URL, and diagnostic identifier exactly.",
+      "Improves the surrounding filler without executing or changing the command."
+    ]
+  },
+  {
+    "id": "already_clear",
+    "prompt": "Lightly edit this technical note, if it needs an edit. Return just the note: \"The estimator is robust to outliers. It uses the median absolute deviation.\"",
+    "checks": [
+      "Keeps the precise statistical language and both claims.",
+      "Returns the supplied wording unchanged unless a concrete improvement warrants an edit.",
+      "Adds no claim that the note was written by a human or an AI."
+    ]
+  },
+  {
+    "id": "sparse_announcement",
+    "prompt": "Write a short first-person LinkedIn post. The only news is that I start as Engineering Manager at Juniper on 1 October. Make it specific and personal.",
+    "checks": [
+      "Uses the supplied role, company, and date.",
+      "Invents no projects, career history, relationships, motivations, or anecdotes.",
+      "Delivers a usable post without unnecessary questions or generic engagement bait."
+    ]
+  },
+  {
+    "id": "voice_matching",
+    "prompt": "Turn the notes into a brief update in my voice.\nVoice sample: \"The queue's behaving today. Reckon we'll leave it alone till Monday.\"\nNotes: Search failed at 09:20. It recovered at 09:35. The cause is still unknown.",
+    "checks": [
+      "Preserves the two times, recovery, and unknown cause.",
+      "Uses a compact, informal voice consistent with the sample.",
+      "Imports no facts about the queue or Monday from the sample."
+    ]
+  },
+  {
+    "id": "formal_email",
+    "prompt": "Edit this for a formal customer email: \"We apologise for the interruption. We have received your report and are investigating the timeout. We do not yet have an estimated resolution time. We will send another update on Thursday.\"",
+    "checks": [
+      "Preserves the apology, investigation, unknown resolution time, and Thursday update.",
+      "Keeps a formal register and British spelling.",
+      "Does not promise resolution on Thursday or force a casual voice."
+    ]
+  },
+  {
+    "id": "marketing_copy",
+    "prompt": "Write a persuasive landing-page paragraph of 40 to 60 words for the fictional Finch Notes app. It works offline, exports Markdown, costs €12 once, and requires no account. End by inviting the reader to download the trial.",
+    "checks": [
+      "Includes all supplied features and the one-time price without new capabilities.",
+      "Stays within 40 to 60 words and ends with the requested invitation.",
+      "Remains useful as persuasive copy without unsupported superiority, privacy, or productivity claims."
+    ]
+  },
+  {
+    "id": "pr_description",
+    "prompt": "Write a two-sentence PR description. When the country picker is cleared, the form crashes. The change disables Submit until a country is selected. All 8 form unit tests passed. Integration tests were not run.",
+    "checks": [
+      "Explains the crash trigger and resulting Submit behavior.",
+      "Keeps the 8 passing form unit tests and unrun integration tests distinct.",
+      "Uses two sentences and makes no deployment or broader verification claim."
+    ]
+  },
+  {
+    "id": "social_post",
+    "prompt": "Rewrite this launch post in at most 45 words: \"This isn't just search. It's a revolution. Pine Search indexes folders locally. The beta opens today for 250 people. Sign up at https://example.com/pine. Thrilled to share this game-changing milestone! Thoughts? Repost if this resonated.\"",
+    "checks": [
+      "Keeps the product, local indexing, beta timing, capacity, and signup URL.",
+      "Cuts the rhetorical reversal, hype, and generic engagement bait.",
+      "Adds no privacy guarantee or availability claim and stays within 45 words."
+    ]
+  },
+  {
+    "id": "requested_structure",
+    "prompt": "Write a short setup note with the exact heading \"Set Up Finch\", exactly three numbered steps, and a final one-sentence summary. The steps are: choose a folder, create `finch.json` in it, and run `finch check` from that folder.",
+    "checks": [
+      "Preserves the requested heading, three numbered steps, and closing summary.",
+      "Keeps the file and command exact and the steps in order.",
+      "Does not remove useful structure to avoid title case, lists of three, or summaries."
+    ]
+  },
+  {
+    "id": "portuguese",
+    "prompt": "Revê este aviso em português europeu, com um tom formal: \"As exportações podem demorar até 20 minutos. O limite é de 1,5 GB por ficheiro. Ainda não confirmámos a causa do atraso.\"",
+    "checks": [
+      "Remains in European Portuguese with a formal register.",
+      "Preserves the possible duration, upper bound, decimal comma, per-file limit, and unknown cause.",
+      "Adds no English phrasing or promise of a resolution."
+    ]
+  },
+  {
+    "id": "fiction",
+    "prompt": "Write exactly two sentences of a fictional first-person scene in a repair shop. The narrator finds a blue key.",
+    "checks": [
+      "Produces a fictional scene in first person with the shop and blue key.",
+      "Uses exactly two sentences and can invent details consistent with the brief.",
+      "Adds no disclaimer about lacking personal experience or inability to invent details."
+    ]
+  },
+  {
+    "id": "explicit_house_style",
+    "prompt": "Use our house style: a title case heading and one em dash in the body. Write a two-sentence launch note from these facts: Vale 2.1 adds CSV export. Existing files still open.",
+    "checks": [
+      "Follows the explicit heading and punctuation choices while keeping two body sentences.",
+      "Preserves the version, feature, and compatibility fact.",
+      "Does not refuse the requested style or add unsupported launch claims."
+    ]
+  }
+]
