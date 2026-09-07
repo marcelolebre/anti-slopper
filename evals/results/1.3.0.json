@@ -1,0 +1,105 @@
+{
+  "date": "2026-09-07",
+  "skill_version": "1.3.0",
+  "sha256": {
+    "SKILL.md": "87eabc2e657af85377196aaf55e4e564ca8572b96cccfb42a3e076b7919138b9",
+    "evals/cases.json": "124bf7d22af9df45ed9e94a06f9f93ceca1ffbd9f1d43a27c0d8d72053cbe026"
+  },
+  "method": "One independent agent generated all answers in a single session from SKILL.md and the prompts. The editing agent reviewed them against the acceptance criteria, which were withheld from the writer.",
+  "limitations": "This was a batch trial with no baseline comparison. It does not establish improvement across models or independent sessions.",
+  "model_snapshot": null,
+  "generation_settings": null,
+  "settings_note": "The writer inherited the session defaults. The exact model snapshot and generation settings were not recorded.",
+  "results": [
+    {
+      "id": "quantities_and_uncertainty",
+      "output": "Our internal pilot processed more than 3,000 records. One site's estimate suggests the change may cut review time by up to 30%.",
+      "result": "pass",
+      "evidence": "Keeps more than 3,000, up to 30%, may, and the estimate's one-site scope."
+    },
+    {
+      "id": "causality",
+      "output": "Errors fell from 18 to 11 per day after the cache update. The monitoring rules also changed that week. We haven't isolated the cause.",
+      "result": "pass",
+      "evidence": "Keeps both error counts, the monitoring change, and the unresolved cause."
+    },
+    {
+      "id": "necessary_negation",
+      "output": "This token grants read access only. Requests fail unless the token is valid. The server checks the signature before reading the payload.",
+      "result": "pass",
+      "evidence": "Read access only preserves the write restriction; token validity and signature order remain."
+    },
+    {
+      "id": "protected_literals",
+      "output": "The release note says, \"Try again—after the backup finishes.\" To inspect the archive, run `backup --dry-run --keep-days 7` and see `https://example.com/releases/v1--beta`. The diagnostic code is `ERR_CACHE_MISS`.",
+      "result": "pass",
+      "evidence": "The quoted sentence, command, URL, and diagnostic identifier are exact."
+    },
+    {
+      "id": "already_clear",
+      "output": "The estimator is robust to outliers. It uses the median absolute deviation.",
+      "result": "pass",
+      "evidence": "Returns the original two sentences unchanged."
+    },
+    {
+      "id": "sparse_announcement",
+      "output": "I start as Engineering Manager at Juniper on 1 October.",
+      "result": "pass",
+      "evidence": "Uses only the role, company, and date; adds no personal history."
+    },
+    {
+      "id": "voice_matching",
+      "output": "Search went down at 09:20 and came back at 09:35. We still don't know what caused it.",
+      "result": "pass",
+      "evidence": "Keeps both times and the unknown cause in a compact, informal voice."
+    },
+    {
+      "id": "formal_email",
+      "output": "We apologise for the interruption. We have received your report and are investigating the timeout, but do not yet have an estimated resolution time. We will send another update on Thursday.",
+      "result": "pass",
+      "evidence": "Keeps the apology, British spelling, investigation, unknown resolution time, and Thursday update."
+    },
+    {
+      "id": "marketing_copy",
+      "output": "Keep writing when you're offline with Finch Notes. You don't need an account, and you can export your notes as Markdown when you want to use them elsewhere. The app costs €12 once. Download the trial and try it with your next note.",
+      "result": "pass",
+      "evidence": "43 words; retains the features, price, and trial invitation without adding capabilities."
+    },
+    {
+      "id": "pr_description",
+      "output": "The form crashes when the country picker is cleared, so this change disables Submit until a country is selected. All 8 form unit tests passed; integration tests were not run.",
+      "result": "pass",
+      "evidence": "Two sentences; keeps the crash trigger, Submit condition, 8 passing unit tests, and unrun integration tests."
+    },
+    {
+      "id": "social_post",
+      "output": "Pine Search indexes folders locally. The beta opens today for 250 people. Sign up at https://example.com/pine.",
+      "result": "pass",
+      "evidence": "16 words; retains all launch facts and the URL while removing the filler."
+    },
+    {
+      "id": "requested_structure",
+      "output": "# Set Up Finch\n\n1. Choose a folder.\n2. Create `finch.json` in that folder.\n3. Run `finch check` from that folder.\n\nCreate `finch.json` and run `finch check` in your chosen folder.",
+      "result": "pass",
+      "evidence": "Keeps the exact heading, three ordered steps, command, filename, and requested summary."
+    },
+    {
+      "id": "portuguese",
+      "output": "As exportações podem demorar até 20 minutos. O limite é de 1,5 GB por ficheiro. Ainda não confirmámos a causa do atraso.",
+      "result": "pass",
+      "evidence": "Returns the formal Portuguese note unchanged, including the decimal comma and uncertainty."
+    },
+    {
+      "id": "fiction",
+      "output": "I found a blue key beneath the repair shop's workbench, stuck to a strip of old masking tape. I peeled it free and set it beside the radio I'd been trying to fix.",
+      "result": "pass",
+      "evidence": "Two sentences of first-person fiction with the repair shop and blue key."
+    },
+    {
+      "id": "explicit_house_style",
+      "output": "## Vale 2.1 Launch\n\nVale 2.1 is here—now with CSV export. Existing files still open.",
+      "result": "pass",
+      "evidence": "Keeps two body sentences, a title case heading, one em dash, and the supplied launch facts."
+    }
+  ]
+}
