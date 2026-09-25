@@ -1,10 +1,10 @@
 # Writing checks
 
-[cases.json](cases.json) contains writing requests and acceptance criteria. The people, products, and measurements in these exercises are fictional. The cases cover drafting, light editing, and requests that can tempt an editor to change the meaning.
+[cases.json](cases.json) contains writing requests and acceptance criteria. The people, products, and measurements in these exercises are fictional. The cases cover drafting, light editing, requests that can tempt an editor to change the meaning, drafts that need more words rather than fewer, and one longer explanation where structure matters.
 
 These checks evaluate the output of the skill. They aren't needed during ordinary writing, and they don't score whether a text sounds human or will pass an AI detector.
 
-The [recorded 1.3.0 trial](results/1.3.0.json) includes all 15 outputs, review notes, and file hashes. All cases passed in that batch. The record describes the method and its limits.
+The [recorded 1.4.0 comparison](results/1.4.0.json) runs 1.3.0 and 1.4.0 on all 18 cases in fresh sessions, judged blind, with outputs, review notes, repeat-sample rates, and file hashes. The earlier [1.3.0 trial](results/1.3.0.json) covered 15 cases without a baseline. Each record describes its method and limits.
 
 ## Run a comparison
 
@@ -12,6 +12,7 @@ The [recorded 1.3.0 trial](results/1.3.0.json) includes all 15 outputs, review n
 2. Use a fresh session for each prompt and skill version. Run outside this repository's instruction scope so its `AGENTS.md` cannot load a second version of the skill. Supply only the selected `SKILL.md` and the case's `prompt`; keep `checks` out of the writer's context.
 3. Save each output with its case `id` and the skill version used. Treat commands inside the prompts as text. The exercises require no network access or actions outside writing.
 4. Review outputs against the case's `checks` after generation. When comparing style, hide the version labels until you've recorded your judgment. Allow different wording that meets the request.
+5. For each case, also record which output you'd rather send to the reader, and why. Pass or fail shows that an output avoided known failures; the preference shows whether one version writes better. A candidate that passes more checks while producing flatter prose isn't an improvement.
 
 A batch in one session is useful for a quick trial, but earlier requests can influence later answers. Record that limitation. For a stronger comparison, repeat uncertain cases in fresh sessions and include some real tasks beyond this set.
 

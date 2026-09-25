@@ -10,7 +10,7 @@ After:
 
 > The update adds CSV export. Integration tests have not been run.
 
-The skill covers sentence craft, recurring filler, and choices that depend on the medium. Its self-audit checks meaning before style. User instructions and supplied house style override its defaults, including the preference for prose without em dashes or en dashes.
+The skill covers how to structure a piece, sentence craft, recurring filler, text that says too little, and choices that depend on the medium. Its self-audit checks meaning before style. User instructions and supplied house style override its defaults, including the preference for prose without em dashes or en dashes.
 
 All writing instructions live in [SKILL.md](SKILL.md). Using the skill requires no scripts, dependencies, or network access. It makes no promise about AI-detector scores.
 

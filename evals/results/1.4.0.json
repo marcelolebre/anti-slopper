@@ -1,0 +1,308 @@
+{
+  "date": "2026-09-25",
+  "skill_version": "1.4.0",
+  "baseline_version": "1.3.0",
+  "sha256": {
+    "SKILL.md": "cbbd49eb5e8557c599a4e87343c361d2a34d8d70036c8d67ffb6c62d5e69a273",
+    "baseline SKILL.md": "87eabc2e657af85377196aaf55e4e564ca8572b96cccfb42a3e076b7919138b9",
+    "evals/cases.json": "61bad12041dbbcf841304995fff77c5288e4a017e6cc0f8b50a3b2edd398c658"
+  },
+  "method": "Each output came from a fresh claude -p session run outside this repository with no tools and no settings sources. The system prompt held only the selected SKILL.md; the user turn held only the case prompt. A separate agent judged each pair blind against the checks, with A and B assigned at random, and recorded a preference. The key was applied afterwards.",
+  "model_snapshot": "claude-opus-5 (as reported by the CLI)",
+  "generation_settings": "CLI defaults",
+  "summary": {
+    "baseline_pass": 9,
+    "candidate_pass": 14,
+    "preferred_candidate": 13,
+    "preferred_baseline": 2,
+    "ties": 3
+  },
+  "iteration": "Four earlier candidate drafts were judged the same way. The first draft regressed on already_clear (added 'because'), social_post (privacy promise), and sparse_announcement (a post that commented on itself); each regression was traced to new wording and fixed. The terse_review_comment check was loosened after results, because a review comment attached to the code can say 'this loop' instead of naming InvoiceList.",
+  "repeat_samples": {
+    "already_clear adds 'because'": {
+      "baseline": "3 of 8",
+      "candidate": "2 of 6"
+    },
+    "terse_review_comment invents a figure": {
+      "baseline": "0 of 3",
+      "candidate": "1 of 6"
+    },
+    "marketing_copy adds a storage or privacy claim": {
+      "baseline": "3 of 4",
+      "candidate (pre-trim)": "0 of 4"
+    }
+  },
+  "limitations": "One output per case per version in the judged run, and one model. Judge verdicts on unchanged baseline outputs varied between judging rounds, so single pass/fail flips are noisy; the repeat samples above are keyword checks, not judged. Both versions still append unrequested notes after some deliverables and still invent small claims in marketing_copy, social_post ('first 250'), and quantities_and_uncertainty (drops 'internal').",
+  "results": [
+    {
+      "id": "quantities_and_uncertainty",
+      "baseline": {
+        "output": "Our pilot processed more than 3,000 records. It suggests the change may cut review time by up to 30%, though the estimate comes from a single site.",
+        "result": "fail",
+        "evidence": "Keeps 'more than 3,000 records', 'up to 30%', 'may', 'a single site', but 'Our pilot' drops 'internal', so the internal scope is lost. Hedging stays in place ('It suggests ... may'), so it's barely more confident."
+      },
+      "candidate": {
+        "output": "Our pilot processed more than 3,000 records. The change may cut review time by up to 30%, though that estimate comes from a single site.",
+        "result": "fail",
+        "evidence": "Keeps 'more than 3,000', 'up to 30%', 'may', 'that estimate comes from a single site', but 'Our pilot' drops 'internal'. Cutting 'It suggests' makes it more confident without losing the uncertainty."
+      },
+      "preferred": "candidate",
+      "reason": "Both lose 'internal'. B is shorter and more confident and still keeps the hedge, as the prompt asked."
+    },
+    {
+      "id": "causality",
+      "baseline": {
+        "output": "Daily errors fell from 18 to 11 after the cache update. The monitoring rules also changed that week, so we haven't isolated the cause.",
+        "result": "pass",
+        "evidence": "'Daily errors fell from 18 to 11 after the cache update ... so we haven't isolated the cause.' Same facts, and the unresolved cause is kept."
+      },
+      "candidate": {
+        "output": "Errors fell from 18 to 11 per day after the cache update. The monitoring rules also changed that week, so we haven't isolated the cause.",
+        "result": "pass",
+        "evidence": "'Errors fell from 18 to 11 per day after the cache update. The monitoring rules also changed that week, so we haven't isolated the cause.' Keeps both counts and the confound, and doesn't credit the cache or claim a fix."
+      },
+      "preferred": "tie",
+      "reason": "The two are nearly identical and equally faithful."
+    },
+    {
+      "id": "necessary_negation",
+      "baseline": {
+        "output": "> The token grants read access only. Requests with an invalid token fail. The server verifies the signature before reading the payload.\n\nTwo changes worth flagging: I dropped \"not write access\" because \"read access only\" already excludes writes, and I kept the signature-then-payload order intact since that sequence is the point of the sentence.",
+        "result": "pass",
+        "evidence": "'read access only. Requests with an invalid token fail. The server verifies the signature before reading the payload.' All distinctions kept. It adds unrequested editing notes ('Two changes worth flagging...'), which the prompt didn't forbid."
+      },
+      "candidate": {
+        "output": "The token grants read access only. The server verifies the signature before reading the payload, and rejects requests with an invalid token.",
+        "result": "pass",
+        "evidence": "'grants read access only' still excludes write access. 'verifies the signature before reading the payload' keeps the order, and 'rejects requests with an invalid token' keeps validity as a condition."
+      },
+      "preferred": "candidate",
+      "reason": "The content is equivalent, and A delivers only the docs, with no editing notes."
+    },
+    {
+      "id": "protected_literals",
+      "baseline": {
+        "output": "The release note says, \"Try again—after the backup finishes.\" To inspect the archive, use `backup --dry-run --keep-days 7` and see `https://example.com/releases/v1--beta`. The diagnostic code is `ERR_CACHE_MISS`.\n\nChanges: `In order to` became `to`, and `utilize` became `use`. The em dash inside the quotation, the double hyphen in the URL, the command flags, and the error code are unchanged.",
+        "result": "pass",
+        "evidence": "Literals are verbatim, and 'In order to' became 'To' and 'utilize' became 'use'. It appends a 'Changes:' note."
+      },
+      "candidate": {
+        "output": "The release note says, \"Try again—after the backup finishes.\" To inspect the archive, run `backup --dry-run --keep-days 7` and see `https://example.com/releases/v1--beta`. The diagnostic code is `ERR_CACHE_MISS`.",
+        "result": "pass",
+        "evidence": "The quote with its em dash, `backup --dry-run --keep-days 7`, `https://example.com/releases/v1--beta` and `ERR_CACHE_MISS` are all verbatim. 'In order to' became 'To' and 'utilize' became 'run'."
+      },
+      "preferred": "candidate",
+      "reason": "Same fidelity, but A has no appended commentary, and 'run' is the better verb for a runbook."
+    },
+    {
+      "id": "already_clear",
+      "baseline": {
+        "output": "The estimator is robust to outliers. It uses the median absolute deviation.",
+        "result": "pass",
+        "evidence": "Returned unchanged: 'The estimator is robust to outliers. It uses the median absolute deviation.' No commentary."
+      },
+      "candidate": {
+        "output": "The estimator is robust to outliers because it uses the median absolute deviation.",
+        "result": "fail",
+        "evidence": "'robust to outliers because it uses the median absolute deviation' adds an explicit causal link the note didn't state, and it edits a note that didn't need editing."
+      },
+      "preferred": "baseline",
+      "reason": "B correctly leaves an already clear note alone, as the prompt allowed."
+    },
+    {
+      "id": "sparse_announcement",
+      "baseline": {
+        "output": "I start as Engineering Manager at Juniper on 1 October.\n\nA note on \"specific and personal\": I only have the one fact you gave me, so that's all I can write without inventing things. If you want more, tell me any of these and I'll work them in:\n\n- What drew you to Juniper (the product, a person who recruited you, the problem space)\n- What you're leaving, and what you learned there\n- What your team will work on\n- Something you're nervous about or want to do differently as a manager\n\nAny one of those would give the post a real detail instead of the usual \"excited for this new chapter\" filler.",
+        "result": "fail",
+        "evidence": "The post is one line ('I start as Engineering Manager at Juniper on 1 October.'), followed by roughly 100 words of meta-commentary and a four-item bulleted questionnaire ('What drew you to Juniper...', 'What you're leaving...'). Those are unnecessary questions that swamp the deliverable."
+      },
+      "candidate": {
+        "output": "I'm starting as Engineering Manager at Juniper on 1 October.\n\nOne note: this is the whole post. You asked for something specific and personal, but the only fact I have is the role and the date, and I'd be inventing anything I added. Tell me one true detail, such as what convinced you to take the job or what the team is building, and I'll work it in.",
+        "result": "pass",
+        "evidence": "'I'm starting as Engineering Manager at Juniper on 1 October.' It invents nothing. A short note asks for 'one true detail' and says 'this is the whole post'. That's borderline, but it's one justified request, not a questionnaire."
+      },
+      "preferred": "candidate",
+      "reason": "Neither invents anything, but B delivers the post with a brief, single request instead of a list of questions."
+    },
+    {
+      "id": "voice_matching",
+      "baseline": {
+        "output": "Search went down at 09:20 and came back at 09:35. We still don't know what caused it.",
+        "result": "fail",
+        "evidence": "'We still don't know what caused it.' is neutral prose that carries over no specific habit of the sample (no dropped subject, nothing like 'Reckon'). The facts are intact."
+      },
+      "candidate": {
+        "output": "Search dropped out at 09:20 and came back at 09:35. Still no idea what caused it.",
+        "result": "pass",
+        "evidence": "'Search dropped out at 09:20 and came back at 09:35. Still no idea what caused it.' Both times, the recovery and the unknown cause are kept. The dropped subject ('Still no idea') and informal wording match the sample, and nothing from the sample is imported."
+      },
+      "preferred": "candidate",
+      "reason": "A actually picks up the sample's clipped, subjectless style."
+    },
+    {
+      "id": "formal_email",
+      "baseline": {
+        "output": "The draft is already clear and appropriately formal. Two small changes:\n\n> We apologise for the interruption. We have received your report and are investigating the timeout. We do not yet have an estimated resolution time, but we will send another update on Thursday.\n\nChanges: joined the last two sentences so the update commitment reads as a direct response to the missing estimate, rather than as a separate afterthought. Everything else works as written, including the apology, which has a real purpose here.\n\nIf the recipient needs a reference point, consider naming the affected service or ticket number in the second sentence.",
+        "result": "pass",
+        "evidence": "The edited text keeps 'apologise', the investigation, 'do not yet have an estimated resolution time, but we will send another update on Thursday'. The register is formal, the spelling British, and there's no resolution promise. The commentary is inaccurate, though: it says 'Two small changes' but lists one, and it adds an unrequested suggestion."
+      },
+      "candidate": {
+        "output": "> We apologise for the interruption. We have received your report and are investigating the timeout. We do not yet have an estimated resolution time, but we will send another update on Thursday.\n\nThe draft was already clear and appropriately formal, so the only change joins the last two sentences so the update commitment answers the missing ETA. If you can name what the timeout affects for this customer, saying so in the first sentence would make the apology land better.",
+        "result": "pass",
+        "evidence": "Identical edited text. The commentary is shorter and accurate ('the only change joins the last two sentences')."
+      },
+      "preferred": "candidate",
+      "reason": "Same edit, with shorter commentary that correctly describes the change."
+    },
+    {
+      "id": "marketing_copy",
+      "baseline": {
+        "output": "Finch Notes keeps your writing on your own machine. It works offline, so your notes are there on a plane or in a basement. Every note exports as plain Markdown you can open in any editor. No account, no subscription: €12 once, and the app is yours. Download the trial and write your first note today.",
+        "result": "fail",
+        "evidence": "56 words, and it ends with 'Download the trial...'. All features and '€12 once' are present. But 'keeps your writing on your own machine' is an unsupplied local-storage/privacy claim, and 'open in any editor' overreaches."
+      },
+      "candidate": {
+        "output": "Finch Notes opens your notes whether or not you have a connection, and every note exports as plain Markdown you can take anywhere. No account, no signup, no subscription: pay €12 once and it's yours. Your notebook stays a folder of files, not a service you rent. Download the trial and write something today.",
+        "result": "fail",
+        "evidence": "54 words, and it ends with 'Download the trial...'. All features and 'pay €12 once' are present. But 'Your notebook stays a folder of files, not a service you rent' invents a storage model the brief didn't supply."
+      },
+      "preferred": "tie",
+      "reason": "Both are good pitches within the limit, and each invents one storage or privacy claim."
+    },
+    {
+      "id": "pr_description",
+      "baseline": {
+        "output": "Submit is disabled until a country is selected, which prevents the crash when the country picker is cleared. All 8 form unit tests pass; integration tests were not run.",
+        "result": "pass",
+        "evidence": "Identical to A."
+      },
+      "candidate": {
+        "output": "Submit is disabled until a country is selected, which prevents the crash when the country picker is cleared. All 8 form unit tests pass; integration tests were not run.",
+        "result": "pass",
+        "evidence": "Two sentences: 'Submit is disabled until a country is selected, which prevents the crash when the country picker is cleared. All 8 form unit tests pass; integration tests were not run.' No broader verification claim."
+      },
+      "preferred": "tie",
+      "reason": "The two outputs are identical."
+    },
+    {
+      "id": "social_post",
+      "baseline": {
+        "output": "Pine Search indexes your folders locally. The beta opens today for the first 250 people: https://example.com/pine\n\nIf you've tried local search tools before, I'd like to know what made you drop them.",
+        "result": "fail",
+        "evidence": "32 words. Keeps the product, local indexing, 'today', 250 and the URL, and cuts the hype. But 'the first 250 people' adds a first-come availability claim the source ('for 250 people') doesn't make. The closing question is specific rather than generic bait."
+      },
+      "candidate": {
+        "output": "Pine Search indexes your folders locally. The beta opens today for the first 250 people: https://example.com/pine\n\nIf you sign up, tell me what you search for most. It'll shape what we build next.",
+        "result": "fail",
+        "evidence": "33 words. Has the same 'the first 250 people' availability change, and 'It'll shape what we build next' adds an unsupported promise."
+      },
+      "preferred": "baseline",
+      "reason": "Both add 'first', but B also adds an unsupported roadmap claim."
+    },
+    {
+      "id": "requested_structure",
+      "baseline": {
+        "output": "# Set Up Finch\n\n1. Choose a folder for your project.\n2. Create `finch.json` in that folder.\n3. Run `finch check` from that folder.\n\nFinch reads `finch.json` from the folder you run it in, so keep the file and the command together.",
+        "result": "fail",
+        "evidence": "The structure is correct, but the summary 'Finch reads `finch.json` from the folder you run it in' states tool behavior that wasn't supplied, and 'a folder for your project' adds framing."
+      },
+      "candidate": {
+        "output": "# Set Up Finch\n\n1. Choose a folder for your Finch configuration.\n2. Create `finch.json` in that folder.\n3. Run `finch check` from that folder.\n\nOnce `finch check` passes, Finch is set up and ready to use.",
+        "result": "pass",
+        "evidence": "Exact '# Set Up Finch' heading, three numbered steps in order with `finch.json` and `finch check` exact, and a one-sentence summary: 'Once `finch check` passes, Finch is set up and ready to use.'"
+      },
+      "preferred": "candidate",
+      "reason": "A's summary sums up the steps without inventing how the tool behaves."
+    },
+    {
+      "id": "portuguese",
+      "baseline": {
+        "output": "O texto já está claro e correto em português europeu. Sugiro apenas um ajuste de ordem na segunda frase:\n\n> As exportações podem demorar até 20 minutos. O limite por ficheiro é de 1,5 GB. Ainda não confirmámos a causa do atraso.\n\nNotas:\n\n- `confirmámos` está correto em português europeu (no Brasil seria `confirmamos`).\n- Mantive a primeira pessoa do plural, que assume a responsabilidade sem perder formalidade. Se o aviso for institucional e impessoal, pode usar «A causa do atraso ainda não foi confirmada.»\n- Preservei os limites tal como os indicou: 20 minutos no máximo e 1,5 GB por ficheiro.",
+        "result": "pass",
+        "evidence": "The text stays in European Portuguese and formal: 'podem demorar até 20 minutos', 'O limite por ficheiro é de 1,5 GB', 'Ainda não confirmámos a causa do atraso.' The facts and decimal comma are kept, with no promise of a fix. It's wrapped in lengthy notes."
+      },
+      "candidate": {
+        "output": "As exportações podem demorar até 20 minutos e cada ficheiro está limitado a 1,5 GB. A causa do atraso ainda não foi confirmada.\n\nMantive os três factos e ajustei apenas o registo. Se quiser indicar quem está a investigar, «Estamos a investigar a causa do atraso, que ainda não foi confirmada» torna o aviso mais informativo.",
+        "result": "pass",
+        "evidence": "'podem demorar até 20 minutos e cada ficheiro está limitado a 1,5 GB. A causa do atraso ainda não foi confirmada.' It's formal, European Portuguese, and the facts are intact. The notes are brief, and the optional suggestion is clearly framed as optional."
+      },
+      "preferred": "candidate",
+      "reason": "B gives a more formal, better revision with far less surrounding commentary."
+    },
+    {
+      "id": "fiction",
+      "baseline": {
+        "output": "I was clearing out the coffee can of orphaned hardware on the bench when a key slid out with the washers, stubby and painted blue down to the bow. It didn't match anything in the shop, so I set it on the windowsill where Ray keeps the parts he can't explain.",
+        "result": "pass",
+        "evidence": "Two sentences in first person, with 'the bench', 'in the shop', 'painted blue down to the bow' and Ray's windowsill. Invented details are consistent with the brief, and there's no disclaimer."
+      },
+      "candidate": {
+        "output": "I was elbow-deep in the coffee can of orphaned keys under the workbench, hunting a blank that might fit the Schwinn lock, when my fingers closed on one with a blue rubber collar. It wasn't ours, and the cuts along its edge were too fine for a bike.",
+        "result": "pass",
+        "evidence": "Two sentences in first person, with 'under the workbench', 'the Schwinn lock', 'a blue rubber collar', 'It wasn't ours'. It's a bike repair setting, the details are consistent, and there's no disclaimer."
+      },
+      "preferred": "candidate",
+      "reason": "B ends on a sharper hook ('the cuts along its edge were too fine for a bike'), which gives the scene more pull."
+    },
+    {
+      "id": "explicit_house_style",
+      "baseline": {
+        "output": "## Vale 2.1 Adds CSV Export\n\nVale 2.1 adds CSV export. Existing files still open — no conversion or migration is needed.",
+        "result": "fail",
+        "evidence": "The style is followed, but 'no conversion or migration is needed' is an unsupported claim beyond 'Existing files still open'."
+      },
+      "candidate": {
+        "output": "# Vale 2.1 Adds CSV Export\n\nVale 2.1 adds CSV export. Existing files still open — no change there.",
+        "result": "pass",
+        "evidence": "Title case heading 'Vale 2.1 Adds CSV Export', two body sentences, and one em dash ('still open — no change there'). Nothing unsupported is added, though 'no change there' is filler."
+      },
+      "preferred": "candidate",
+      "reason": "A follows the style without adding a migration claim the facts don't support."
+    },
+    {
+      "id": "terse_review_comment",
+      "baseline": {
+        "output": "Here's a version the author can act on directly:\n\n> This loop triggers an N+1: each iteration runs a separate query to load the invoice's customer. Preload customers on the invoice query instead, the same way `OrdersController#index` does it.\n\nIf you know the exact call site or variable name in `InvoiceList`, naming it makes the comment even easier to act on.",
+        "result": "pass",
+        "evidence": "The quoted comment reads 'each iteration runs a separate query to load the invoice's customer. Preload customers ... the same way `OrdersController#index` does it.' It's correct and direct, but wrapped in 'Here's a version...' and a trailing tip."
+      },
+      "candidate": {
+        "output": "This loop runs a separate query per invoice to load the customer, so a page of invoices costs one extra query per row. Preloading the customers with the invoice query fixes it. `OrdersController#index` does the same thing and is a good model to copy.",
+        "result": "pass",
+        "evidence": "'This loop runs a separate query per invoice to load the customer ... Preloading the customers with the invoice query fixes it. `OrdersController#index` does the same thing and is a good model to copy.' Full sentences, collegial tone, no measurements. 'a page of invoices' is a slight inference."
+      },
+      "preferred": "candidate",
+      "reason": "Both are accurate, and A is ready to paste with no wrapper."
+    },
+    {
+      "id": "upset_customer",
+      "baseline": {
+        "output": "Subject: Your invoices have been resent\n\nHi,\n\nYou're right, and I'm sorry. A bug in our email provider's retry logic dropped some invoice emails between 3 and 20 September. Yours were among them, which is why this happened repeatedly rather than once.\n\nThe bug is fixed. Your 14 affected invoices were resent today, so your clients should have them now. We're also adding a daily delivery check so a failure like this gets caught rather than going unnoticed for weeks.\n\nIf any of the 14 still haven't arrived, or if you need anything to explain the delay to your clients, tell me and I'll sort it out.\n\n[Your name]",
+        "result": "fail",
+        "evidence": "It includes the cause, '3 and 20 September', 'fixed', '14 affected invoices were resent today' and 'daily delivery check'. But it never acknowledges the clients chasing the customer, and 'which is why this happened repeatedly rather than once' adds a causal claim. 'anything to explain the delay to your clients ... I'll sort it out' is an open-ended promise."
+      },
+      "candidate": {
+        "output": "Subject: Re: Invoices failing to send\n\nHi,\n\nYou're right, and I'm sorry. Your invoices weren't reaching your clients, and you've been fielding the chasing that should never have landed on you.\n\nHere's what happened. A bug in our email provider's retry logic dropped some invoice emails between 3 and 20 September. Yours were among them. The bug is fixed, and we resent your 14 affected invoices today, so your clients should have them now.\n\nTo catch anything like this sooner, we're adding a daily delivery check on invoice emails.\n\nIf any client tells you they still haven't received an invoice, send me the invoice number and I'll look into it straight away.\n\n[Your name]",
+        "result": "pass",
+        "evidence": "'you've been fielding the chasing that should never have landed on you' acknowledges the effect on the customer's clients. It has all the facts (3 to 20 September, fixed, 14 resent today, daily delivery check), promises nothing beyond them, and reads warm."
+      },
+      "preferred": "candidate",
+      "reason": "B names the customer's actual pain and stays within the facts."
+    },
+    {
+      "id": "long_form_explainer",
+      "baseline": {
+        "output": "# Why the payments service uses idempotency keys\n\n## The problem: a timeout isn't an answer\n\nWhen a client sends a payment request and the response times out, the client doesn't know what happened. The request may never have reached us. It may have reached us and failed. Or the charge may have succeeded and simply taken longer than the client was willing to wait. A timeout tells you nothing about the state of the charge on the server.\n\nBecause a timeout could mean the request was lost, clients retry. That's the correct behavior. If they didn't retry, a dropped request would silently fail and the customer would never be charged.\n\nBut retrying creates the opposite risk. If the original charge succeeded slowly, and we treat the retry as a brand new request, we charge the customer twice. The client has no way to tell these cases apart on its own, so the server has to.\n\n## How the key works\n\nThe client generates a UUID for each payment attempt and sends it in the `Idempotency-Key` header. The key identifies the attempt, not the request. A retry of the same attempt carries the same key.\n\nOn the server side, when a request completes, we store the key along with the response we returned. If a request arrives with a key we've already seen, we don't process the payment again. We return the stored response instead. The client gets the same answer it would have received the first time, and the customer is charged once.\n\nThat turns the retry into a safe operation. The client can retry as many times as it needs to, and the outcome is the same as if the request had gone through once.\n\nWe keep stored keys for 24 hours. After that they expire, and a request with an expired key is treated as new.\n\n## Reused keys with different bodies\n\nOne case needs care. If a key arrives again with a request body that differs from the original, we return a 422. A key is tied to one specific attempt, so a different body means something has gone wrong on the client side: a key being reused across separate payments, or a body being mutated between the first send and the retry.\n\nReturning the stored response in that case would be worse than failing. The client would get back a success for a charge that doesn't match what it just asked for, and the mismatch would go unnoticed. The 422 makes the bug visible.\n\n## What this means when you write client code\n\nGenerate the UUID before the first send, not inside the retry loop. If you generate a new key on each attempt, every retry looks like a new payment and the protection is gone.\n\nKeep the request body byte-identical across retries. Rebuilding the body from a source that includes a timestamp or a regenerated field will trip the 422.\n\nIf you need to retry beyond the 24 hour window, treat it as a new payment attempt with a new key, and check the charge status first.",
+        "result": "fail",
+        "evidence": "About 477 words of body text, so within range. It invents server behavior: 'a request with an expired key is treated as new', 'Keep the request body byte-identical', 'check the charge status first'. It also puts an H2 over every section, some of them short."
+      },
+      "candidate": {
+        "output": "# Why the payments service uses idempotency keys\n\nNetworks fail in an unhelpful way: they fail after the work is done. A client sends a charge request, the connection times out, and the client has no idea whether the charge went through. The only safe assumption is that it might have. The only useful action is to retry.\n\nThat combination is the whole problem. When a charge succeeds slowly, the response times out on the client side while the server happily completes the payment. The client retries. Without anything to tie the two requests together, the server sees a second, unrelated charge request and processes it. The customer is charged twice, and nobody notices until they write in.\n\n## How we prevent it\n\nThe client generates a UUID for every payment attempt and sends it in the `Idempotency-Key` header. Note that the key belongs to the attempt, not the retry: the first request and every retry of it carry the same UUID. A new payment means a new UUID.\n\nOn our side, the server stores the key along with the response it produced, and keeps that pair for 24 hours. When a request arrives carrying a key we've already seen, the server doesn't process anything. It returns the stored response.\n\nThat's what makes the retry safe. The second request gets the same answer as the first, so the client can retry as many times as it needs to without the customer paying more than once. From the client's point of view, a timeout followed by a retry is indistinguishable from a slow success, which is exactly the property we want.\n\n## The 422\n\nThere's one more rule worth knowing. If a request arrives with a key we've seen but a different request body, the server returns a 422 instead of the stored response.\n\nThis catches a specific class of bug. A key is a promise that two requests are the same operation, so if the bodies differ, that promise has been broken somewhere: a client reusing a key across payments, a UUID generated once and cached by mistake, a request body mutated between the original call and the retry. Returning the stored response in that situation would be worse than an error, because the client would receive a confirmation for a payment it never actually requested. The 422 makes the mistake loud.\n\n## What this means when you're writing client code\n\nGenerate the UUID before the first attempt and hold onto it. Reuse it for every retry of that attempt, and don't change the body between retries. Generate a fresh one for the next payment.\n\nThe 24-hour window is generous for retry loops but not for anything else. Don't treat the stored response as a lookup mechanism for old payments; use it for what it is, which is a safety net around a request the client isn't sure landed.",
+        "result": "pass",
+        "evidence": "About 454 words. It has UUID, `Idempotency-Key`, 24 hours, the stored response and 422, and states the problem early. The paragraphs are connected and the headings sparser. There are small embellishments ('nobody notices until they write in', 'The 24-hour window is generous for retry loops'), but no invented server behavior."
+      },
+      "preferred": "candidate",
+      "reason": "B explains the same mechanism without inventing expiry or byte-level rules, and its prose flows better."
+    }
+  ]
+}

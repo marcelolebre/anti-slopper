@@ -59,6 +59,7 @@
     "checks": [
       "Preserves the two times, recovery, and unknown cause.",
       "Uses a compact, informal voice consistent with the sample.",
+      "Carries over a specific habit of the sample, such as its dropped subject or informal word choice, instead of neutral prose.",
       "Imports no facts about the queue or Monday from the sample."
     ]
   },
@@ -77,7 +78,8 @@
     "checks": [
       "Includes all supplied features and the one-time price without new capabilities.",
       "Stays within 40 to 60 words and ends with the requested invitation.",
-      "Remains useful as persuasive copy without unsupported superiority, privacy, or productivity claims."
+      "Remains useful as persuasive copy without unsupported superiority, privacy, or productivity claims.",
+      "Reads as a pitch: connects features to what the reader can do, instead of listing flat facts in short declaratives."
     ]
   },
   {
@@ -132,6 +134,36 @@
       "Follows the explicit heading and punctuation choices while keeping two body sentences.",
       "Preserves the version, feature, and compatibility fact.",
       "Does not refuse the requested style or add unsupported launch claims."
+    ]
+  },
+  {
+    "id": "terse_review_comment",
+    "prompt": "Rewrite my code review comment so the author can act on it without asking me anything. Context: the loop in `InvoiceList` loads each invoice's customer with a separate database query. Preloading customers fixes it, and `OrdersController#index` already does this.\nMy comment: \"n+1. preload customers, see OrdersController#index\"",
+    "checks": [
+      "Explains in full sentences that each invoice triggers a separate customer query.",
+      "Names preloading customers as the fix, keeps `OrdersController#index` exact, and makes clear which loop is meant, either by naming `InvoiceList` or by referring to the code the comment is attached to.",
+      "Invents no measured slowdown, query count, or code the context didn't supply.",
+      "Sounds collegial and direct rather than curt, and doesn't pad beyond what the author needs."
+    ]
+  },
+  {
+    "id": "upset_customer",
+    "prompt": "Draft a reply to this customer email: \"Third time this month my invoices failed to send. I've got clients chasing me for them. What is going on?\"\nFacts: a bug in our email provider's retry logic dropped some invoice emails between 3 and 20 September. It is fixed. The customer's 14 affected invoices were resent today. We are adding a daily delivery check.",
+    "checks": [
+      "Acknowledges the specific problem and its effect on the customer's clients, not a generic apology.",
+      "Includes the cause, the 3 to 20 September window, the fix, the 14 resent invoices, and the planned daily check.",
+      "Promises nothing beyond the facts, such as a guarantee that it won't recur or compensation.",
+      "Sounds warm and human rather than a list of facts or a form letter, without grovelling or ceremonial filler."
+    ]
+  },
+  {
+    "id": "long_form_explainer",
+    "prompt": "Write a 350 to 500 word explanation for new engineers of why our payments service uses idempotency keys. Facts: clients retry a request when the response times out. Without a key, a retry after a charge that succeeded slowly can charge the customer twice. The client generates a UUID for each payment attempt and sends it in the `Idempotency-Key` header. The server stores the key with its response for 24 hours and returns the stored response when the same key arrives again. Reusing a key with a different request body returns a 422 error.",
+    "checks": [
+      "Preserves every supplied fact exactly, including `Idempotency-Key`, 24 hours, and 422, and invents no statistics, incidents, or extra behavior.",
+      "States the point early and orders the material by the reader's questions, such as the problem, the mechanism, and the edge cases.",
+      "Uses paragraphs with a clear job each, with connected reasoning instead of chopped bullets or a heading over every short section.",
+      "Avoids uniform section shapes and closing summaries that restate what was just said, and stays within 350 to 500 words."
     ]
   }
 ]
